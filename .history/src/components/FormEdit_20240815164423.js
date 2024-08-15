@@ -35,7 +35,7 @@ export async function addReview(data) {
         author: book.author,
         price: Number(book.price),
         publisher: book.publisher,
-        published: new Date(book.published).toISOString(), // ISO-8601形式に変換
+        published: new Date(book.published).toISOString(),
         image: book.image,
         read: new Date(data.get('read')),
         memo: data.get('memo'),

@@ -115,6 +115,16 @@ export default function Header({ children }) {
           <li className="header-menu-item">
             <Button
               component={Link}
+              href="/reading-history"
+              className="custom-menu-button"
+            >
+              読書履歴
+            </Button>
+          </li>
+
+          <li className="header-menu-item">
+            <Button
+              component={Link}
               href="/recommendations"
               className="custom-menu-button"
             >

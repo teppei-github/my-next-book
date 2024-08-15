@@ -15,7 +15,7 @@
     "@emotion/styled": "^11.11.5",
     "@heroicons/react": "^2.1.5",
     "@mui/material": "^5.16.5",
-    "@prisma/client": "^5.17.0",
+    "@prisma/client": "^5.18.0",
     "autoprefixer": "^10.4.19",
     "bcrypt": "^5.1.1",
     "firebase": "^10.12.4",

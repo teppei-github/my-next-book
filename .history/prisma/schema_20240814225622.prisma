@@ -12,7 +12,7 @@ datasource db {
 
 
 model Review {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   author      String
   price       Int
@@ -40,3 +40,4 @@ model Book {
   recommended Boolean  @default(false)
   publishedAt DateTime
 }
+
