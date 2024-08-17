@@ -21,11 +21,8 @@ export default function FormEdit({ src: { id, read, memo } }) {
         const formData = new FormData(event.target);
         formData.append('userId', signInUser?.uid); // ユーザーIDを追加
 
-        console.log("User ID:", signInUser?.uid); // ユーザーIDをログに出力
-
-
-        if (!signInUser) {
-            console.error("User is not signed in.");
+        if (!signInUser || !isValidObjectId(signInUser.uid)) {
+            console.error("Invalid User ID format.");
             return;
         }
 
@@ -39,8 +36,6 @@ export default function FormEdit({ src: { id, read, memo } }) {
 
     // 削除ハンドラー
     const handleDelete = async () => {
-        console.log("Review ID:", id); // レビューIDをログに出力
-
         if (!isValidObjectId(id)) {
             console.error("Invalid Review ID format.");
             return;

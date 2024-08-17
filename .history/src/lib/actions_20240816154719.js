@@ -51,9 +51,6 @@ export async function addReview(data) {
         memo: data.get('memo'),
     };
 
-    console.log("inputデータの確認:", input);
-    console.log("idデータの確認:", data.get('id'));
-
     // 新規データであれば登録、既存データであれば更新
     await prisma.review.upsert({
         where: {

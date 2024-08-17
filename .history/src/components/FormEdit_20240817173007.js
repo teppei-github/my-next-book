@@ -5,9 +5,9 @@ import { addReview, removeReview } from '@/lib/actions';
 import { signInUserState } from '@state/signInUserState';
 import { useRecoilValue } from 'recoil';
 
-function isValidObjectId(id) {
-    const objectIdPattern = /^[0-9a-fA-F]{24}$/;
-    return objectIdPattern.test(id);
+function isValidUserId(userId) {
+    const userIdPattern = /^[0-9a-fA-F]{24}$/;
+    return userIdPattern.test(userId);
 }
 
 export default function FormEdit({ src: { id, read, memo } }) {
@@ -21,11 +21,8 @@ export default function FormEdit({ src: { id, read, memo } }) {
         const formData = new FormData(event.target);
         formData.append('userId', signInUser?.uid); // ユーザーIDを追加
 
-        console.log("User ID:", signInUser?.uid); // ユーザーIDをログに出力
-
-
-        if (!signInUser) {
-            console.error("User is not signed in.");
+        if (!signInUser || !isValidUserId(signInUser.uid)) {
+            console.error("Invalid User ID format.");
             return;
         }
 
@@ -39,13 +36,6 @@ export default function FormEdit({ src: { id, read, memo } }) {
 
     // 削除ハンドラー
     const handleDelete = async () => {
-        console.log("Review ID:", id); // レビューIDをログに出力
-
-        if (!isValidObjectId(id)) {
-            console.error("Invalid Review ID format.");
-            return;
-        }
-
         try {
             // 削除リクエスト
             await removeReview(id);
