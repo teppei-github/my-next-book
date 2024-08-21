@@ -1,20 +1,22 @@
+"use client";
+
 import React from "react";
 import FavoriteButton from "@/components/FavoriteButton";
-import { useRecoilState } from 'recoil';
-import { favoritesState } from '@/state/favoritesState'; 
-import { useEffect } from 'react';
+import { useRecoilState } from "recoil";
+import { favoritesState } from "@/state/favoritesState";
+import { useEffect } from "react";
 
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useRecoilState(favoritesState);
 
-  console.log('Favorites from Recoil:', favorites);
+  console.log("Favorites from Recoil:", favorites);
 
   useEffect(() => {
-    console.log('Favorites state updated:', favorites);
+    console.log("Favorites state updated:", favorites);
   }, [favorites]);
 
   if (!Array.isArray(favorites)) {
-    console.error('favorites is not an array:', favorites);
+    console.error("favorites is not an array:", favorites);
     return <div>お気に入りの情報を読み込めませんでした。</div>;
   }
 

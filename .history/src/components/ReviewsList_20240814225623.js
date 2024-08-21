@@ -82,7 +82,7 @@ export default function ReviewsList({ reviews }) {
                 <p>No reviews available.</p>
             ) : (
                 // レビューのリストを表示
-                filteredReviews.map((review, index) => (
+                filteredReviews.((review, index) => (
                     <LinkedBookDetails book={review} index={index + 1} key={review.id} />
                 ))
             )}

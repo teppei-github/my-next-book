@@ -15,7 +15,7 @@ export default function ReviewsPage() {
 
   useEffect(() => {
     console.log("Current signInUser:", signInUser);
-  const fetchData = async () => {
+    const fetchData = async () => {
       if (signInUser?.uid) {
         try {
           // サインインしているユーザーIDを使ってレビューを取得
@@ -27,7 +27,7 @@ export default function ReviewsPage() {
           setReviews(data);
         } catch (error) {
           console.error("Error fetching data:", error);
-          setError("データの取得に失敗しました。");
+          setError("データの取得に失敗しました?");
         }
       } else {
         setError("サインインしてください。");

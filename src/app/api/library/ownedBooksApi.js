@@ -1,4 +1,3 @@
-// src/api/ownedBooksApi.js
 import prisma from "@lib/prisma";
 
 // ユーザーが持っている本のデータをデータベースから取得する非同期関数

@@ -35,16 +35,11 @@ export default function ReviewsList({ reviews }) {
             }
 
             try {
-                const fullUrl = `${url}?${params.toString()}`;
-                console.log('Fetching data from:', fullUrl); // デバッグ用
-                const response = await fetch(fullUrl);
-
+                const response = await fetch(`${url}?${params.toString()}`);
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-
                 const data = await response.json();
-                
                 if (Array.isArray(data)) {
                     setFilteredReviews(data); // フィルタリングされたレビューの状態を更新
                 } else {
