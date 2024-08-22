@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { getBookById } from "@lib/getter";
 
 // PrismaClientのインスタンスを作成
 const prisma = new PrismaClient();
@@ -107,7 +106,6 @@ export async function DELETE(req) {
   try {
     // リクエストボディからデータを取得
     const data = await req.json();
-    console.log('Received data:', data);
     const userId = data.userId;
     const reviewId = data.id;
 

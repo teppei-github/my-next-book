@@ -29,7 +29,6 @@ const FavoriteButton = ({ bookId }) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ userId: signInUser.uid, bookId }), // ユーザーIDと本のIDをリクエストボディに含める
           credentials: 'include',
         });
       } else {

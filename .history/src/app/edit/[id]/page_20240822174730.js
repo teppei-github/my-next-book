@@ -39,10 +39,7 @@ export default function EditPage({ params }) {
     fetchBooks();
   }, [params.id]);
 
- // `book` が存在する場合にのみ `FormEdit` をレンダリング
- if (!book) {
-  return <p>Book not found.</p>; // 書籍が見つからない場合のメッセージ
-}
+ 
 
   //「YYYY-MM-DD」形式の日付を生成
   const read = (review?.read || new Date()).toLocaleDateString("sv-SE");

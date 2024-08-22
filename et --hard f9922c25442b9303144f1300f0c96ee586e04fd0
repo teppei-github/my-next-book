@@ -1,0 +1,155 @@
+[33mcommit 66ec2984d1df48275501a9cb42d41ba197969d7e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Wed Aug 21 21:41:59 2024 +0900
+
+    レビュー
+
+[33mcommit f9922c25442b9303144f1300f0c96ee586e04fd0[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Mon Aug 19 17:35:06 2024 +0900
+
+    レビュー一覧、お気に入り一覧作成
+
+[33mcommit 2427a83dd749c351d26acdc97722f5c8dff0699f[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Sat Aug 17 18:19:38 2024 +0900
+
+    レビュー機能の修正
+
+[33mcommit 70058dc51271ca152ac4734e41f697e3528fad59[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Thu Aug 15 18:09:09 2024 +0900
+
+    Add .gitignore and clean up repository
+
+[33mcommit 360c1e97cd52ceb668380eeeb2e6bb043fe22cbd[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Thu Aug 15 17:55:20 2024 +0900
+
+    prismaとmongodbを接続した
+
+[33mcommit 07d219d9252664e37e61bdba4ee938179b2a4498[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Thu Aug 15 17:20:39 2024 +0900
+
+    Add .gitignore to exclude .env files
+
+[33mcommit 44cc99020487c6cc289237db45d4f5243f36c474[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Thu Aug 15 17:09:40 2024 +0900
+
+    Remove .env file from repository
+
+[33mcommit bba602309d82fb3e7ebadcfa35abeb3b79718471[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Wed Aug 14 23:12:03 2024 +0900
+
+    first commit
+
+[33mcommit 5624d32ad144a242705838a37d2578bc957e4233[m
+Author: Teppei Yoshida New Mac <teppei@njc.co.jp>
+Date:   Wed Aug 14 18:37:01 2024 +0900
+
+    first commit
+
+[33mcommit f72b2eacbb0773552b70351205061ac914e224d5[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Tue Aug 6 19:55:00 2024 +0900
+
+    Initial commit
+
+[33mcommit b2b122421f1a376a0f2bbd227eb6a0d71f9ecd11[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Tue Aug 6 18:19:14 2024 +0900
+
+    Update code with API key handling and backoff strategy
+
+[33mcommit 37ffec31b7ca263df5bf85ab43a5c0fef0bcca0c[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Mon Aug 5 16:57:01 2024 +0900
+
+    レビュー一覧
+
+[33mcommit 2deec0e3d9cb611fc246f589e73cf4edd0bd881c[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Tue Jul 30 12:20:07 2024 +0900
+
+    ReviewForm.js作成
+
+[33mcommit c8bba75ae6c0bbc2aab343b2e0386682a3113b2c[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Tue Jul 30 08:55:57 2024 +0900
+
+    ログインフォーム作成
+
+[33mcommit 2474d2004e906af15a2f4ce2b43ed886608403b6[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Sat Jul 27 18:58:45 2024 +0900
+
+    Header.jsの訂正
+
+[33mcommit 9848ac7b742791b3708be9506470e4dbd89af873[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Wed Jul 24 18:15:47 2024 +0900
+
+    Fix issues with SignUp and Header components
+
+[33mcommit ec0ad6cbbfeaa81390dc0302c7677905c8a227ab[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Tue Jul 23 18:59:57 2024 +0900
+
+    header変更
+
+[33mcommit 8eb57a2a7e303e46c1a62f80c3ca7d2bbf7555f9[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Mon Jul 22 16:08:36 2024 +0900
+
+    Update ReviewsPage component
+
+[33mcommit 84275a2414ec64523474858fdef84822631ba784[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Fri Jul 19 18:15:07 2024 +0900
+
+    Update favorite functionality and state management
+
+[33mcommit 2ec8d201624b9c81bf0c84b306c73872924e1655[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Thu Jul 18 17:59:40 2024 +0900
+
+    途中までログインフォームが作成できた
+
+[33mcommit beb0a39b647dbd9dbfba6d440f81e61f29ea3100[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Tue Jul 16 17:16:05 2024 +0900
+
+    ログイン画面作成
+
+[33mcommit 5eca67ea1990797ebe7d27e91bce0f9c337e824d[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Mon Jul 15 17:15:05 2024 +0900
+
+    ログインフォームを作成しようとしています
+
+[33mcommit 1062bdf89f4f204e2f343075ec4a2c1398e459fc[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Sat Jul 13 18:27:26 2024 +0900
+
+    ヘッダーにレビューの項目を追加しました
+
+[33mcommit 944e5c35339e3569894031bca8399fb032d35b12[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Mon Jul 8 16:09:17 2024 +0900
+
+    P615まで作成
+
+[33mcommit c059f4742e8af4d1cd7c0a0f5de97741ee32aae6[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Thu Jul 4 17:12:54 2024 +0900
+
+    first commit
+
+[33mcommit 526ef80f4cf3a16a75cfa88b0ad3b9f5474e00ba[m
+Author: rweyb <danyulingnai8@gmail.com>
+Date:   Wed Jul 3 15:55:19 2024 +0900
+
+    Initial commit from Create Next App

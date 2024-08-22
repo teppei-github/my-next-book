@@ -67,38 +67,25 @@ export async function POST(req) {
 
 export async function GET(req) {
   try {
+    // リクエストURLからクエリパラメータを取得
     const url = new URL(req.url);
-    const userId = url.searchParams.get("userId");
-    const filter = url.searchParams.get("filter") || 'all'; // 'all' がデフォルト
-
+    const id = url.pathname.split("/").pop();
+    
+    // ユーザーIDが指定されていない場合のエラーハンドリング
     if (!userId) {
       return NextResponse.json({ error: "ユーザーIDが指定されていません。" }, { status: 400 });
     }
 
-    let reviews;
+    // ユーザーに関連するレビューを取得
+    const reviews = await prisma.review.findMany({
+      where: { userId: userId },
+    });
 
-    if (filter === 'mine') {
-      // 自分のレビューを取得
-      reviews = await prisma.review.findMany({
-        where: { userId: userId },
-      });
-    } else if (filter === 'others') {
-      // 他のユーザーのレビューを取得
-      reviews = await prisma.review.findMany({
-        where: {
-          userId: {
-            not: userId,
-          },
-        },
-      });
-    } else {
-      // すべてのレビューを取得
-      reviews = await prisma.review.findMany();
-    }
-
+    // 取得したレビューを返す
     return NextResponse.json(reviews);
   } catch (error) {
     console.error("API Error:", error);
+    // 内部サーバーエラーを返す
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
@@ -107,7 +94,6 @@ export async function DELETE(req) {
   try {
     // リクエストボディからデータを取得
     const data = await req.json();
-    console.log('Received data:', data);
     const userId = data.userId;
     const reviewId = data.id;
 

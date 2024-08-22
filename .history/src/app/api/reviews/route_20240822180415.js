@@ -107,7 +107,6 @@ export async function DELETE(req) {
   try {
     // リクエストボディからデータを取得
     const data = await req.json();
-    console.log('Received data:', data);
     const userId = data.userId;
     const reviewId = data.id;
 

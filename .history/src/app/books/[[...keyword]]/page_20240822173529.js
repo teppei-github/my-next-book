@@ -1,4 +1,4 @@
-"use client"; 
+"use client"; // クライアントコンポーネントとしてマーク。サーバーサイドではなく、クライアントサイドで動作します。
 
 import { useState, useEffect } from "react";
 import LinkedBookDetails from "@/components/LinkedBookDetails"; // 書籍の詳細情報を表示するコンポーネント
