@@ -28,7 +28,9 @@ export default function FormEdit({ src: { id, read, memo } }) {
     const formDataObj = {};
     formData.forEach((value, key) => {
       formDataObj[key] = value;
+      console.log("formData???", formDataObj);
     });
+
     console.log("formData???", formDataObj); // ユーザーIDをログに出力
     try {
       const response = await fetch("/api/reviews", {

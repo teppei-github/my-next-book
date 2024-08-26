@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation";
 import { removeReview } from "@/lib/actions";
 import { signInUserState } from "@state/signInUserState";
 import { useRecoilValue } from "recoil";
+import Image from 'next/image';
 
 function isValidObjectId(id) {
   const objectIdPattern = /^[0-9a-fA-F]{24}$/;
   return objectIdPattern.test(id);
 }
 
-export default function FormEdit({ src: { id, read, memo } }) {
+export default function FormEdit({ src: { id, read, memo, image } }) {
   // 現在のユーザーを取得
   const signInUser = useRecoilValue(signInUserState);
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function FormEdit({ src: { id, read, memo } }) {
     formData.forEach((value, key) => {
       formDataObj[key] = value;
     });
+
     console.log("formData???", formDataObj); // ユーザーIDをログに出力
     try {
       const response = await fetch("/api/reviews", {
@@ -82,34 +84,61 @@ export default function FormEdit({ src: { id, read, memo } }) {
 
   return (
     <form onSubmit={handleSubmit}>
-        <input type="hidden" name="id" defaultValue={id} />
+      <input type="hidden" name="id" defaultValue={id} />
+      <div className="mb-3">
+        <label className="font-bold" htmlFor="read">
+          読了日 :
+        </label>
+        <input
+          type="date"
+          id="read"
+          name="read"
+          className="block bg-gray-100 border-2 border-gray-600 rounded focus:bg-white focus:outline-none focus:border-red-500"
+          defaultValue={read}
+        />
+      </div>
+
+      <div className="mb-3">
+        <label className="font-bold" htmlFor="memo">
+          感想 :
+        </label>
+        <textarea
+          id="memo"
+          name="memo"
+          rows="3"
+          className="block bg-gray-100 border-2 border-gray-600 w-full rounded focus:bg-white focus:outline-none focus:border-red-500"
+          defaultValue={memo}
+        ></textarea>
+      </div>
+
+      {image && (
         <div className="mb-3">
-            <label className="font-bold" htmlFor="read">読了日 :</label>
-            <input type="date" id="read" name="read"
-                className="block bg-gray-100 border-2 border-gray-600 rounded focus:bg-white
-                focus:outline-none focus:border-red-500"
-                defaultValue={read} />
+          <Image
+            src={image}
+            alt="Book Cover"
+            layout="responsive"
+            width={600}
+            height={400}
+            className="border-2 border-gray-600 rounded"
+            priority={true}
+          />
         </div>
+      )}
 
-        <div className="mb-3">
-            <label className="font-bold" htmlFor="memo">感想 :</label>
-            <textarea id="memo" name="memo" rows="3"
-                className="block bg-gray-100 border-2 border-gray-600 w-full rounded
-                focus:bg-white focus:outline-none focus:border-red-500"
-                defaultValue={memo}></textarea>
-        </div>
+      <button
+        type="submit"
+        className="bg-blue-600 text-white rounded px-4 py-2 mr-2 hover:bg-blue-500"
+      >
+        登録
+      </button>
 
-        <button type="submit"
-            className="bg-blue-600 text-white rounded px-4 py-2 mr-2 hover:bg-blue-500">
-            登録
-        </button>
-
-        {/* 削除ボタンで handleDelete 関数を呼び出し */}
-        <button type="button" 
-            className="bg-red-600 text-white rounded px-4 py-2 hover:bg-red-500"
-            onClick={handleDelete}> {/* onClick イベントで handleDelete を呼び出す */}
-            削除
-        </button>
+      <button
+        type="button"
+        className="bg-red-600 text-white rounded px-4 py-2 hover:bg-red-500"
+        onClick={handleDelete}
+      >
+        削除
+      </button>
     </form>
-);
+  );
 }
