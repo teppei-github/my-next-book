@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { getBookById, getReviewById } from "@lib/getter"; // 必要な関数をインポート
+import { getBookById } from "@lib/getter";
 
 // PrismaClientのインスタンスを作成
 const prisma = new PrismaClient();
@@ -10,9 +10,7 @@ export async function POST(req) {
     // リクエストボディからデータを取得
     const data = await req.json();
     console.log('Received data:', data);
-
-    // 書籍情報を取得
-    const book = await getBookById(data.id);  
+    const book = await getBookById(data.id);  // 書籍情報を取得
     const userId = data.userId;
 
     // 書籍情報が取得できなかった場合のエラーハンドリング
@@ -50,9 +48,14 @@ export async function POST(req) {
       memo: data.memo,
     };
 
+    // `data.id` が存在するか確認
+    if (!data.id) {
+      return NextResponse.json({ error: "レビューIDが指定されていません。" }, { status: 400 });
+    }
+
     // レビューを追加または更新
     await prisma.review.upsert({
-      where: { id: data.id || "" }, // 新規作成の場合は空文字列を使用
+      where: { id: data.id },
       update: {
         ...input,
         user: { connect: { id: userId } },
@@ -67,7 +70,8 @@ export async function POST(req) {
     // 成功メッセージを返す
     return NextResponse.json({ message: "レビューが正常に保存されました。" });
   } catch (error) {
-    console.error("API Error in POST:", error);
+    console.error("API Error:", error);
+    // 内部サーバーエラーを返す
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
@@ -77,27 +81,16 @@ export async function GET(req) {
     const url = new URL(req.url);
     const userId = url.searchParams.get('userId');
     const bookId = url.searchParams.get('bookId');
-    const reviewId = url.searchParams.get('reviewId');
     const filter = url.searchParams.get("filter") || 'all'; // 'all' がデフォルト
 
-    // reviewId が指定されている場合、特定のレビューを取得
-    if (reviewId) {
-      const review = await getReviewById(reviewId);
-      if (!review) {
-        return NextResponse.json({ error: "指定されたレビューが見つかりません。" }, { status: 404 });
-      }
-      return NextResponse.json([review]); // 単一のレビューを配列に格納して返す
-    }
-
-    // userId が指定されていない場合のエラーハンドリング
     if (!userId) {
       return NextResponse.json({ error: "ユーザーIDが指定されていません。" }, { status: 400 });
     }
 
     let reviews;
 
-    // bookId が指定されている場合、特定の書籍に関連するレビューを取得
     if (bookId) {
+      // bookId が指定されている場合
       reviews = await prisma.review.findMany({
         where: {
           userId: userId,
@@ -128,7 +121,7 @@ export async function GET(req) {
 
     return NextResponse.json(reviews);
   } catch (error) {
-    console.error("API Error in GET:", error);
+    console.error("API Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
@@ -154,7 +147,8 @@ export async function DELETE(req) {
     // 成功メッセージを返す
     return NextResponse.json({ message: "レビューが削除されました。" });
   } catch (error) {
-    console.error("API Error in DELETE:", error);
+    console.error("API Error:", error);
+    // 内部サーバーエラーを返す
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -2,7 +2,6 @@
 
 import BookDetails from "@/components/BookDetails";
 import FormEdit from "@/components/FormEdit";
-import ReturnTopButton from "@/components/ReturnTopButton";
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { signInUserState } from "@state/signInUserState";
@@ -71,7 +70,6 @@ export default function EditPage({ params }) {
       <BookDetails book={book} />
       <hr />
       <FormEdit src={{ id: book.id, read, memo: review?.memo }} />
-      <ReturnTopButton />
     </div>
   );
 }

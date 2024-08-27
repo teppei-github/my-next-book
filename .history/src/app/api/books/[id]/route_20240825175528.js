@@ -17,7 +17,6 @@ export async function GET(request, { params }) {
     const book = await fetchBookById(id);
     return NextResponse.json(book);
   } catch (error) {
-    console.error("Error fetching book by ID", error);
-    return NextResponse.json({ error: "書籍データの取得に失敗しました" }, { status: 500 });
+    return NextResponse.error(new Error("書籍データの取得に失敗しました"));
   }
 }

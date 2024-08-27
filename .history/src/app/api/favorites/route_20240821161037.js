@@ -14,7 +14,7 @@ export async function POST(req) {
     }
 
     // お気に入りを追加
-    await prisma.favorite.create({
+    await prisma.favorites.create({
       data: {
         userId,
         bookId,
@@ -62,7 +62,7 @@ export async function DELETE(req) {
     }
 
     // お気に入りを削除
-    await prisma.favorite.deleteMany({
+    await prisma.favorites.deleteMany({
       where: {
         userId,
         bookId,

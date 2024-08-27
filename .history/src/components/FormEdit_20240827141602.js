@@ -44,7 +44,12 @@ export default function FormEdit({ src: { id, read, memo } }) {
         },
         body: JSON.stringify(formDataObj),
       });
-      
+
+      // IDの形式を確認
+if (!id || !isValidObjectId(id)) {
+  console.error("Invalid Review ID format.");
+  return;
+}
 
       // レスポンスが成功の場合はリダイレクト
       if (response.ok) {

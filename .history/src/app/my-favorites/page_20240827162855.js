@@ -34,7 +34,6 @@ const FavoritesPage = () => {
           <p>お気に入りの本がありません。</p>
         )}
       </ul>
-      <ReturnTopButton />
     </div>
   );
 };

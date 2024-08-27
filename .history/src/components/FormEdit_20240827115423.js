@@ -44,7 +44,6 @@ export default function FormEdit({ src: { id, read, memo } }) {
         },
         body: JSON.stringify(formDataObj),
       });
-      
 
       // レスポンスが成功の場合はリダイレクト
       if (response.ok) {

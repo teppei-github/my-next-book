@@ -2,7 +2,6 @@
 
 import BookDetails from "@/components/BookDetails";
 import FormEdit from "@/components/FormEdit";
-import ReturnTopButton from "@/components/ReturnTopButton";
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { signInUserState } from "@state/signInUserState";
@@ -46,7 +45,7 @@ export default function EditPage({ params }) {
         }
         const reviewData = await reviewResponse.json();
         console.log("Review data:", reviewData);
-        setReview(reviewData[0]);
+        setReview(reviewData);
       } catch (error) {
         console.error("Error fetching data:", error);
         // エラーハンドリングの追加
@@ -71,7 +70,6 @@ export default function EditPage({ params }) {
       <BookDetails book={book} />
       <hr />
       <FormEdit src={{ id: book.id, read, memo: review?.memo }} />
-      <ReturnTopButton />
     </div>
   );
 }

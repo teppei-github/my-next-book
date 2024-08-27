@@ -30,7 +30,7 @@ export default function BookResult({ params }) {
       }
     };
     fetchBooks();
-  }, [keyword, page, params.keyword]);
+  }, [keyword, page]);
 
   // ページ変更時に呼び出される関数
   const handleChange = (event, value) => {
