@@ -67,10 +67,13 @@ const FavoriteButton = ({ bookId, title = '', author = '', price = 0, publisher 
       }
 
       // お気に入りリストの状態を更新
-      setFavorites(prevFavorites => isFavorite
-        ? prevFavorites.filter(id => id !== bookId) // お気に入りから削除
-        : [...prevFavorites, bookId] // お気に入りに追加
-      );
+      setFavorites(prevFavorites => {
+        if (isFavorite) {
+          return prevFavorites.filter(id => id !== bookId);
+        } else {
+          return [...prevFavorites, bookId];
+        }
+      });
     } catch (error) {
       // エラーハンドリング
       console.error('APIリクエスト中にエラーが発生しました:', error);

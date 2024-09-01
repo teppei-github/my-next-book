@@ -93,9 +93,8 @@ export default function ReviewsList({ reviews }) {
                 </FormControl>
             </Box>
 
-             {/* エラーメッセージとレビューの表示 */}
-             {error && <p>{error}</p>}
-             {filteredReviews.length === 0 ? (
+            {/* レビューがない場合のメッセージ */}
+            {filteredReviews.length === 0 ? (
                 <p>No reviews available.</p>
             ) : (
                 // レビューのリストを表示

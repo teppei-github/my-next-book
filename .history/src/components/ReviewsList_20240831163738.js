@@ -25,7 +25,7 @@ export default function ReviewsList({ reviews }) {
         setFilteredReviews(reviews);
     }, [reviews]);
 
-    useEffect(() => {
+    seEffect(() => {
         if (!signInUser?.uid) {
             setError("ユーザーがサインインしていません");
             return;
@@ -58,11 +58,9 @@ export default function ReviewsList({ reviews }) {
                     setFilteredReviews(data); // フィルタリングされたレビューの状態を更新
                 } else {
                     console.error('Invalid data format:', data);
-                    setError("データ形式が無効です");
                 }
             } catch (error) {
                 console.error('Failed to fetch reviews:', error); // エラーハンドリング
-                setError("レビューの取得に失敗しました");
             }
         }
         fetchReviews(); // レビューのフェッチ
@@ -93,9 +91,8 @@ export default function ReviewsList({ reviews }) {
                 </FormControl>
             </Box>
 
-             {/* エラーメッセージとレビューの表示 */}
-             {error && <p>{error}</p>}
-             {filteredReviews.length === 0 ? (
+            {/* レビューがない場合のメッセージ */}
+            {filteredReviews.length === 0 ? (
                 <p>No reviews available.</p>
             ) : (
                 // レビューのリストを表示

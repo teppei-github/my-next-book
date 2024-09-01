@@ -19,9 +19,10 @@ const FavoriteButton = ({ bookId, title = '', author = '', price = 0, publisher 
       console.error("User must be logged in to favorite a book.");
       return;
     }
-    
+
     try {
-      // リクエストボディの構築
+      let response;
+
       const requestBody = {
         userId: signInUser.uid,
         bookId,
@@ -33,9 +34,6 @@ const FavoriteButton = ({ bookId, title = '', author = '', price = 0, publisher 
         image,
       };
 
-      let response;
-
-      // お気に入りが既に存在する場合、削除リクエストを送信
       if (isFavorite) {
         console.log("Removing favorite:", requestBody); 
         response = await fetch('/api/favorites', {
@@ -47,14 +45,13 @@ const FavoriteButton = ({ bookId, title = '', author = '', price = 0, publisher 
           credentials: 'include',
         });
       } else {
-        // お気に入りが存在しない場合、新規追加リクエストを送信
         console.log("Adding favorite:", requestBody);
         response = await fetch('/api/favorites', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(requestBody),// 新規追加リクエストのボディ
+          body: JSON.stringify(requestBody),
           credentials: 'include',
         });
       }
@@ -67,10 +64,13 @@ const FavoriteButton = ({ bookId, title = '', author = '', price = 0, publisher 
       }
 
       // お気に入りリストの状態を更新
-      setFavorites(prevFavorites => isFavorite
-        ? prevFavorites.filter(id => id !== bookId) // お気に入りから削除
-        : [...prevFavorites, bookId] // お気に入りに追加
-      );
+      setFavorites(prevFavorites => {
+        if (isFavorite) {
+          return prevFavorites.filter(id => id !== bookId);
+        } else {
+          return [...prevFavorites, bookId];
+        }
+      });
     } catch (error) {
       // エラーハンドリング
       console.error('APIリクエスト中にエラーが発生しました:', error);

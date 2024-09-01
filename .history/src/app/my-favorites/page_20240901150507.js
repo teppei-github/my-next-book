@@ -32,8 +32,8 @@ const FavoritesPage = () => {
         {/* お気に入りの配列が存在し、アイテムがある場合 */}
         {Array.isArray(favorites) && favorites.length > 0 ? (
           favorites.map((item) => (
-            <li key={item.bookId || item.id}> {/* リストアイテムに一意のキーを設定 */}
-              <div>{item.title || 'タイトルがありません'}</div> {/* 書籍タイトルを表示、タイトルが空の場合のフォールバック */}
+            <li key={item.bookId}> {/* リストアイテムに一意のキーを設定 */}
+              <div>{item.title}</div> {/* 書籍タイトルを表示 */}
               <FavoriteButton
                 bookId={item.bookId}
                 title={item.title}
@@ -46,7 +46,7 @@ const FavoritesPage = () => {
             </li>
           ))
         ) : (
-          <p>お気に入りの本がありません。</p> 
+          <p>お気に入りの本がありません。</p> {/* お気に入りがない場合のメッセージ */}
         )}
       </ul>
       <ReturnTopButton />

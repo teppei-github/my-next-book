@@ -1,30 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
+// PrismaClientの設定
 const prisma = new PrismaClient();
 
-function isValidId(id) {
-  const objectIdPattern = /^[0-9a-fA-F]{24}$/;
-  const bookIdPattern = /^[A-Za-z0-9]{12}$/;
-  return objectIdPattern.test(id) || bookIdPattern.test(id);
-}
-
-/// お気に入りを追加する
+// お気に入りを追加する
 export async function POST(req) {
   try {
     const data = await req.json();
-    const {
-      userId,
-      bookId,
-      title = "Unknown Title", // デフォルト値
-      author = "Unknown Author", // デフォルト値
-      price = 0, // デフォルト値
-      publisher = "Unknown Publisher", // デフォルト値
-      published = new Date().toISOString(), // 現在の日付をデフォルト値として設定
-      image = "default_image_url", // デフォルト画像URL
-    } = data;
+    const { userId, bookId } = data;
 
-    // 必須フィールドのチェック
     if (!userId || !bookId) {
       return NextResponse.json(
         { error: "ユーザーIDまたは書籍IDが指定されていません。" },
@@ -33,30 +18,23 @@ export async function POST(req) {
     }
 
     // お気に入りを追加
-    const favorite = await prisma.favorite.create({
+    const favorite = await prisma.favorite.create({  // モデル名が `favorite` だと仮定
       data: {
         userId,
         bookId,
-        title,
-        author,
-        price: parseInt(price, 10),
-        publisher,
-        published: new Date(published),
-        image,
       },
     });
     console.log("Favorite added:", favorite);
 
     return NextResponse.json({ message: "お気に入りが追加されました。" });
   } catch (error) {
-    console.error("API Error:", error.message);
+    console.error("API Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 } // Internal Server Error
     );
   }
 }
-
 
 // お気に入り一覧を取得する
 export async function GET(req) {
@@ -67,18 +45,19 @@ export async function GET(req) {
     if (!userId) {
       return NextResponse.json(
         { error: "ユーザーIDが指定されていません。" },
-        { status: 400 } 
+        { status: 400 } // Bad Request
       );
     }
 
     // ユーザーのすべてのお気に入りを取得
-    const favorites = await prisma.favorite.findMany({  // モデル名が `favorite`
+    const favorites = await prisma.favorite.findMany({  // モデル名が `favorite` だと仮定
       where: { userId },
+      include: { book: true },  // お気に入りに関連する書籍情報も取得する
     });
 
-    return NextResponse.json(favorites); // 書籍情報も返す場合は、必要な情報を含める
+    return NextResponse.json(favorites.map(fav => fav.book)); // 書籍情報のみを返す
   } catch (error) {
-    console.error("API Error:", error.message); // エラーメッセージの詳細を出力
+    console.error("API Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 } // Internal Server Error
@@ -99,28 +78,17 @@ export async function DELETE(req) {
       );
     }
 
-    if (!isValidId(bookId)) {
-      return NextResponse.json(
-        { error: "無効な書籍IDの形式です。" },
-        { status: 400 }
-      );
-    }
-
-    
-    const deleteResult = await prisma.favorite.deleteMany({
-      where: { userId, bookId },
+    // お気に入りを削除
+    await prisma.favorite.deleteMany({  // モデル名が `favorite` だと仮定
+      where: {
+        userId,
+        bookId,
+      },
     });
-
-    if (deleteResult.count === 0) {
-      return NextResponse.json(
-        { error: "お気に入りが見つからないか、削除できませんでした。" },
-        { status: 404 }
-      );
-    }
 
     return NextResponse.json({ message: "お気に入りが削除されました。" });
   } catch (error) {
-    console.error("API Error in DELETE:", error.message);
+    console.error("API Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 } // Internal Server Error

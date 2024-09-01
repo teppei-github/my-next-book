@@ -19,28 +19,25 @@ export default function ReviewsList({ reviews }) {
     const [filteredReviews, setFilteredReviews] = useState(reviews);
     // フィルタリング状態 ('all', 'mine', 'others')
     const [filter, setFilter] = useState('all');
-    const [error, setError] = useState("");
 
     useEffect(() => {
-        setFilteredReviews(reviews);
-    }, [reviews]);
-
-    useEffect(() => {
-        if (!signInUser?.uid) {
-            setError("ユーザーがサインインしていません");
-            return;
-        }
-
         async function fetchReviews() {
-            let url = '/api/reviews';
+            if (!signInUser?.uid) {
+                console.error('User is not signed in');
+                return;
+            }
+
+            let url = '/api/reviews'; // デフォルトのURL
             const params = new URLSearchParams();
 
+            // userIdを常に追加
             params.append('userId', signInUser.uid);
 
             if (filter === 'mine') {
-                // params.append('userId', signInUser.uid); // 重複を削除
+                params.append('userId', signInUser.uid); // 自分のレビューを取得
             } else if (filter === 'others') {
-                params.append('filter', 'others');
+                params.append('filter', 'others'); // 他の人のレビューを取得
+                params.append('userId', signInUser.uid);
             }
 
             try {
@@ -58,11 +55,9 @@ export default function ReviewsList({ reviews }) {
                     setFilteredReviews(data); // フィルタリングされたレビューの状態を更新
                 } else {
                     console.error('Invalid data format:', data);
-                    setError("データ形式が無効です");
                 }
             } catch (error) {
                 console.error('Failed to fetch reviews:', error); // エラーハンドリング
-                setError("レビューの取得に失敗しました");
             }
         }
         fetchReviews(); // レビューのフェッチ
@@ -93,9 +88,8 @@ export default function ReviewsList({ reviews }) {
                 </FormControl>
             </Box>
 
-             {/* エラーメッセージとレビューの表示 */}
-             {error && <p>{error}</p>}
-             {filteredReviews.length === 0 ? (
+            {/* レビューがない場合のメッセージ */}
+            {filteredReviews.length === 0 ? (
                 <p>No reviews available.</p>
             ) : (
                 // レビューのリストを表示
