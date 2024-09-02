@@ -40,12 +40,12 @@ export async function POST(req) {
       },
     });
 
-    if (existingFavorite) {
+    /*if (existingFavorite) {
       return NextResponse.json(
         { error: "このお気に入りは既に存在します。" },
         { status: 400 }
       );
-    }
+    }*/
 
     // お気に入りを追加
     const favorite = await prisma.favorite.create({
@@ -64,7 +64,7 @@ export async function POST(req) {
 
     return NextResponse.json({ message: "お気に入りが追加されました。" });
   } catch (error) {
-    console.error("Error in API:", error);
+    console.error("API Error:", error.message);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

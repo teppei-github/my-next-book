@@ -15,10 +15,7 @@ const FavoritesPage = () => {
   useEffect(() => {
     // お気に入りが変更されたときに書籍情報を取得
     const fetchBooks = async () => {
-      if (favorites.length === 0) {
-        setBooks([]); // お気に入りが空の場合、書籍リストも空にする
-        return;
-      }
+      if (favorites.length === 0) return;
       
       try {
         const query = new URLSearchParams({ ids: favorites.join(',') }).toString();

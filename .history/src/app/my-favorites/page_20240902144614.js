@@ -15,10 +15,7 @@ const FavoritesPage = () => {
   useEffect(() => {
     // お気に入りが変更されたときに書籍情報を取得
     const fetchBooks = async () => {
-      if (favorites.length === 0) {
-        setBooks([]); // お気に入りが空の場合、書籍リストも空にする
-        return;
-      }
+      if (favorites.length === 0) return;
       
       try {
         const query = new URLSearchParams({ ids: favorites.join(',') }).toString();
@@ -27,7 +24,7 @@ const FavoritesPage = () => {
           throw new Error('Failed to fetch books');
         }
         const data = await response.json();
-        setBooks(data.books || []); // 修正: data.books が存在しない場合に備える
+        setBooks(data.books); // 書籍情報をステートに保存
       } catch (error) {
         console.error('Error fetching books:', error);
       }

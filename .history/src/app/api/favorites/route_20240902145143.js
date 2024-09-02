@@ -1,5 +1,7 @@
-import prisma from "@lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+
+const prisma = new PrismaClient();
 
 function isValidId(id) {
   const objectIdPattern = /^[0-9a-fA-F]{24}$/;
@@ -64,7 +66,7 @@ export async function POST(req) {
 
     return NextResponse.json({ message: "お気に入りが追加されました。" });
   } catch (error) {
-    console.error("Error in API:", error);
+    console.error("API Error:", error.message);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

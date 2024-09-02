@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 
+// ダミー関数：IDに基づいて書籍データを取得するシミュレーション
 const fetchBookById = async (id) => {
-  return { id, title: "サンプル書籍", author: "著者名" };
+  // APIコールやデータベースクエリをシミュレート
+  return { id, title: "サンプル書籍", author: "著者名" }; // 実際のデータ取得ロジックに置き換えてください
 };
 
 export async function GET(request, { params }) {

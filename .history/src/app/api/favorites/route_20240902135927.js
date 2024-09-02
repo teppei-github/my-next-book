@@ -1,5 +1,7 @@
-import prisma from "@lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+
+const prisma = new PrismaClient();
 
 function isValidId(id) {
   const objectIdPattern = /^[0-9a-fA-F]{24}$/;
@@ -64,7 +66,7 @@ export async function POST(req) {
 
     return NextResponse.json({ message: "お気に入りが追加されました。" });
   } catch (error) {
-    console.error("Error in API:", error);
+    console.error("API Error:", error.message);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -72,16 +74,19 @@ export async function POST(req) {
   }
 }
 
+// 他のメソッド（GET, DELETE）はそのままです
+
+
 // お気に入り一覧を取得する
 export async function GET(req) {
   try {
     const url = new URL(req.url);
     const userId = url.searchParams.get("userId");
 
-    if (!userId || !isValidId(userId)) {
+    if (!userId) {
       return NextResponse.json(
-        { error: "ユーザーIDが指定されていないか、無効な形式です。" },
-        { status: 400 }
+        { error: "ユーザーIDが指定されていません。" },
+        { status: 400 } 
       );
     }
 
@@ -113,9 +118,9 @@ export async function DELETE(req) {
       );
     }
 
-    if (!isValidId(userId) || !isValidId(bookId)) {
+    if (!isValidId(bookId)) {
       return NextResponse.json(
-        { error: "無効なIDの形式です。" },
+        { error: "無効な書籍IDの形式です。" },
         { status: 400 }
       );
     }

@@ -64,7 +64,7 @@ export async function POST(req) {
 
     return NextResponse.json({ message: "お気に入りが追加されました。" });
   } catch (error) {
-    console.error("Error in API:", error);
+    console.error("API Error:", error.message);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
