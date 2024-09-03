@@ -2,8 +2,9 @@ import prisma from "@lib/prisma";
 import { NextResponse } from "next/server";
 
 function isValidId(id) {
-  // 文字列であり、空でないことを確認
-  return typeof id === 'string' && id.trim().length > 0;
+  const objectIdPattern = /^[0-9a-fA-F]{24}$/; // MongoDBのObjectId形式
+  const bookIdPattern = /^[A-Za-z0-9-_]{10,12}$/; // 書籍ID用のサンプルパターン
+  return objectIdPattern.test(id) || bookIdPattern.test(id);
 }
 
 /// お気に入りを追加する
@@ -30,8 +31,8 @@ export async function POST(req) {
       );
     }
 
-      // ユーザーIDと書籍IDが有効か確認
-    if (!isValidId(userId) || !isValidId(bookId)) {
+     // ユーザーIDと書籍IDが有効か確認
+     if (!isValidId(userId) || !isValidId(bookId)) {
       return NextResponse.json(
         { error: "無効なユーザーIDまたは書籍IDです。" },
         { status: 400 }

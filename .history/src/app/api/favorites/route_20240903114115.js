@@ -2,8 +2,9 @@ import prisma from "@lib/prisma";
 import { NextResponse } from "next/server";
 
 function isValidId(id) {
-  // 文字列であり、空でないことを確認
-  return typeof id === 'string' && id.trim().length > 0;
+  const objectIdPattern = /^[0-9a-fA-F]{24}$/;
+  const bookIdPattern = /^[A-Za-z0-9]{12}$/;
+  return objectIdPattern.test(id) || bookIdPattern.test(id);
 }
 
 /// お気に入りを追加する
@@ -26,14 +27,6 @@ export async function POST(req) {
     if (!userId || !bookId) {
       return NextResponse.json(
         { error: "ユーザーIDまたは書籍IDが指定されていません。" },
-        { status: 400 }
-      );
-    }
-
-      // ユーザーIDと書籍IDが有効か確認
-    if (!isValidId(userId) || !isValidId(bookId)) {
-      return NextResponse.json(
-        { error: "無効なユーザーIDまたは書籍IDです。" },
         { status: 400 }
       );
     }
@@ -95,25 +88,16 @@ export async function GET(req) {
     }
 
     // ユーザーのすべてのお気に入りを取得
-    const favorites = await prisma.favorite.findMany({
+    const favorites = await prisma.favorite.findMany({  // モデル名が `favorite`
       where: { userId },
-      select: {
-        bookId: true,
-        title: true,
-        author: true,
-        price: true,
-        publisher: true,
-        published: true,
-        image: true,
-      },
     });
-    
+
     return NextResponse.json(favorites); // 書籍情報も返す場合は、必要な情報を含める
   } catch (error) {
     console.error("API Error:", error.message); // エラーメッセージの詳細を出力
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 } 
+      { status: 500 } // Internal Server Error
     );
   }
 }

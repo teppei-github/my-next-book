@@ -30,7 +30,8 @@ export async function POST(req) {
       );
     }
 
-      // ユーザーIDと書籍IDが有効か確認
+      // ID形式のチェック
+    console.log(`userId: ${userId}, bookId: ${bookId}`); // ログ出力
     if (!isValidId(userId) || !isValidId(bookId)) {
       return NextResponse.json(
         { error: "無効なユーザーIDまたは書籍IDです。" },

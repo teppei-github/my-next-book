@@ -9,9 +9,9 @@ import ReturnTopButton from "@/components/ReturnTopButton";
 import Image from 'next/image';
 
 const FavoritesPage = () => {
-  const [favorites, setFavorites] = useRecoilState(favoritesState); // お気に入りの状態管理
-  const signInUser = useRecoilValue(signInUserState); // サインインユーザーの取得
-  const [books, setBooks] = useState([]); // 書籍情報の状態管理
+  const [favorites, setFavorites] = useRecoilState(favoritesState);
+  const signInUser = useRecoilValue(signInUserState);
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
     // お気に入りが変更されたときに書籍情報を取得
@@ -20,49 +20,21 @@ const FavoritesPage = () => {
         setBooks([]); // お気に入りが空の場合、書籍リストも空にする
         return;
       }
-
+      
       try {
-        // APIからお気に入りの書籍情報を取得
         const query = new URLSearchParams({ userId: signInUser.uid }).toString();
         const response = await fetch(`/api/favorites?${query}`);
         if (!response.ok) {
           throw new Error('Failed to fetch favorites');
         }
         const data = await response.json();
-        console.log('API response data:', data); // デバッグ用にAPIレスポンスを確認
-        setBooks(data.books || []);
+        setBooks(data.map(fav => fav.book) || []);
       } catch (error) {
         console.error('Error fetching favorites:', error);
       }
     };
     fetchBooks();
-  }, [favorites, signInUser]); // `favorites` または `signInUser` が変更されると再実行
-
-  const handleFavoriteChange = async (bookId, isFavorite) => {
-    try {
-      if (isFavorite) {
-        // お気に入りに追加する処理
-        await fetch('/api/favorites', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: signInUser.uid, bookId }),
-        });
-      } else {
-        // お気に入りから削除する処理
-        await fetch('/api/favorites', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: signInUser.uid, bookId }),
-        });
-      }
-      // 状態を再取得して更新
-      const response = await fetch(`/api/favorites?userId=${signInUser.uid}`);
-      const data = await response.json();
-      setBooks(data.books || []);
-    } catch (error) {
-      console.error('Error updating favorite:', error);
-    }
-  };
+  },  [favorites, signInUser.uid]);
 
   if (!signInUser || !signInUser.uid) {
     return <div>ログインしていないため、お気に入りページを表示できません。</div>;
@@ -81,12 +53,12 @@ const FavoritesPage = () => {
               <div>出版社: {book.publisher || '出版社情報がありません'}</div>
               <div>出版日: {book.published ? new Date(book.published).toLocaleDateString() : '出版日がありません'}</div>
               <Image 
-                src={book.image || '/default_image_url.jpg'} 
-                alt={book.title || '書籍画像'} 
-                width={150}
-                height={200}
-                layout='responsive'
-              />
+              src={book.image || '/default_image_url.jpg'} 
+              alt={book.title || '書籍画像'} 
+              width={150} // 適切な幅を指定
+              height={200} // 適切な高さを指定
+              layout='responsive' // レイアウトオプションを指定
+            />
               <FavoriteButton
                 bookId={book.bookId}
                 title={book.title}
@@ -95,12 +67,11 @@ const FavoritesPage = () => {
                 publisher={book.publisher}
                 published={book.published}
                 image={book.image}
-                onChange={handleFavoriteChange} // 状態変更ハンドラーを追加
               />
             </li>
           ))
         ) : (
-          <p>お気に入りの本がありません。</p>
+          <p>お気に入りの本がありません。</p> 
         )}
       </ul>
       <ReturnTopButton />

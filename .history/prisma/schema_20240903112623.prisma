@@ -1,6 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,24 +12,23 @@ datasource db {
 }
 
 model Review {
-  id        String   @id @map("_id")
-  title     String
-  author    String
-  price     Int
-  publisher String
-  published DateTime
-  image     String
-  read      DateTime @default(now())
-  memo      String
-  userId    String
-  bookId    String
-  user      User     @relation(fields: [userId], references: [id])
-
+  id          String   @id @map("_id")
+  title       String
+  author      String
+  price       Int
+  publisher   String
+  published   DateTime
+  image       String
+  read        DateTime @default(now())
+  memo        String
+  userId      String  
+  bookId      String
+  user        User     @relation(fields: [userId], references: [id])
   @@map("reviews")
 }
 
 model User {
-  id         String      @id @default(uuid()) @map("_id")
+  id         String       @id @default(uuid()) @map("_id")
   name       String
   email      String      @unique
   password   String
@@ -38,16 +38,16 @@ model User {
 }
 
 model Favorite {
-  id        String   @id @default(uuid()) @map("_id")
-  userId    String
-  bookId    String
-  title     String
-  author    String
-  price     Int
-  publisher String
-  published DateTime
-  image     String
-  user      User     @relation(fields: [userId], references: [id])
+  id      String   @id @default(uuid()) @map("_id")
+  userId  String
+  bookId  String
+  title       String
+  author      String
+  price       Int
+  publisher   String
+  published   DateTime
+  image       String
+  user    User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, bookId])
   @@map("favorites")
@@ -64,8 +64,9 @@ model OwnedBook {
   published DateTime
   image     String
 
-  user User @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, bookId])
   @@map("owned_books")
 }
+

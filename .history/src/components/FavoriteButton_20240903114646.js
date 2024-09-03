@@ -55,8 +55,7 @@ const FavoriteButton = ({
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
         console.error('Error response:', errorData.error || 'Unknown error');
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
-
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       // お気に入りリストの状態を更新
