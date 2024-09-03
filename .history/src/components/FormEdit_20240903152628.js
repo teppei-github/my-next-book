@@ -93,14 +93,14 @@ export default function FormEdit({ src: { id, read, memo, book } }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col items-center max-w-lg mx-auto p-6 bg-white shadow-lg rounded">
+    <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-lg mx-auto p-4 bg-white shadow-lg rounded">
       <input type="hidden" name="id" defaultValue={id} />
       <input type="hidden" name="imagesrc" defaultValue={book.image} />
       <input type="hidden" name="title" defaultValue={book.title} />
       <input type="hidden" name="author" defaultValue={book.author} />
       <input type="hidden" name="publisher" defaultValue={book.publisher} />
       <input type="hidden" name="published" defaultValue={book.published} />
-      <div className="mb-4 w-full">
+      <div className="mb-3 w-full">
         <label className="font-bold" htmlFor="read">
           読了日 :
         </label>
@@ -113,7 +113,7 @@ export default function FormEdit({ src: { id, read, memo, book } }) {
         />
       </div>
   
-      <div className="mb-4 w-full">
+      <div className="mb-3 w-full">
         <label className="font-bold" htmlFor="memo">
           感想 :
         </label>
