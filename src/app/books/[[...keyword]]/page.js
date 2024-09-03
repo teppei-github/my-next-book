@@ -5,6 +5,8 @@ import LinkedBookDetails from "@/components/LinkedBookDetails";
 import PaginationComponent from "@/components/PaginationComponent";
 import { getBooksByKeyword } from "@lib/getter";
 import ReturnTopButton from "@/components/ReturnTopButton";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { signInUserState } from "@/state/signInUserState";
 
 // ルートパラメーターparamsを取得
 export default function BookResult({ params }) {
@@ -14,6 +16,8 @@ export default function BookResult({ params }) {
   const [error, setError] = useState(null); // エラーメッセージを格納する状態
   const booksPerPage = 10; // 1ページあたりの書籍数
 
+  const signInUser = useRecoilValue(signInUserState); // サインインユーザーの取得
+
   useEffect(() => {
     const fetchBooks = async () => {
       if (!keyword) {
@@ -22,12 +26,17 @@ export default function BookResult({ params }) {
       }
 
       try {
-        const fetchedBooks = await getBooksByKeyword(keyword, page, booksPerPage);
+        const fetchedBooks = await getBooksByKeyword(
+          keyword,
+          page,
+          booksPerPage
+        );
         setBooks(fetchedBooks);
+
         setError(null);
       } catch (error) {
-        console.error('書籍データの取得中にエラーが発生しました:', error);
-        setError('書籍情報の取得に失敗しました。もう一度お試しください。');
+        console.error("書籍データの取得中にエラーが発生しました:", error);
+        setError("書籍情報の取得に失敗しました。もう一度お試しください。");
       }
     };
     fetchBooks();
@@ -65,8 +74,8 @@ export default function BookResult({ params }) {
             count={Math.ceil(books.length / booksPerPage)} // 総ページ数
             onChange={handleChange} // ページ変更時に呼び出される関数
           />
-           {/* ページの下部に ReturnTopButton を追加 */}
-           <ReturnTopButton />
+          {/* ページの下部に ReturnTopButton を追加 */}
+          <ReturnTopButton />
         </>
       )}
     </div>

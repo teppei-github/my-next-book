@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { favoritesState } from "@/state/favoritesState";
 import { signInUserState } from "@/state/signInUserState";
 import ReturnTopButton from "@/components/ReturnTopButton";
-import Image from 'next/image';
+import Image from "next/image";
 
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useRecoilState(favoritesState); // お気に入りの状態管理
@@ -16,6 +16,7 @@ const FavoritesPage = () => {
   useEffect(() => {
     // お気に入りが変更されたときに書籍情報を取得
     const fetchBooks = async () => {
+      console.log("favorites", favorites);
       if (favorites.length === 0) {
         setBooks([]); // お気に入りが空の場合、書籍リストも空にする
         return;
@@ -23,16 +24,18 @@ const FavoritesPage = () => {
 
       try {
         // APIからお気に入りの書籍情報を取得
-        const query = new URLSearchParams({ userId: signInUser.uid }).toString();
+        const query = new URLSearchParams({
+          userId: signInUser.uid,
+        }).toString();
         const response = await fetch(`/api/favorites?${query}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch favorites');
+          throw new Error("Failed to fetch favorites");
         }
         const data = await response.json();
-        console.log('API response data:', data); // デバッグ用にAPIレスポンスを確認
-        setBooks(data.books || []);
+        console.log("API response data:", data); // デバッグ用にAPIレスポンスを確認
+        setBooks(data || []);
       } catch (error) {
-        console.error('Error fetching favorites:', error);
+        console.error("Error fetching favorites:", error);
       }
     };
     fetchBooks();
@@ -42,30 +45,32 @@ const FavoritesPage = () => {
     try {
       if (isFavorite) {
         // お気に入りに追加する処理
-        await fetch('/api/favorites', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        await fetch("/api/favorites", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: signInUser.uid, bookId }),
         });
       } else {
         // お気に入りから削除する処理
-        await fetch('/api/favorites', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
+        await fetch("/api/favorites", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: signInUser.uid, bookId }),
         });
       }
       // 状態を再取得して更新
       const response = await fetch(`/api/favorites?userId=${signInUser.uid}`);
       const data = await response.json();
-      setBooks(data.books || []);
+      setBooks(data || []);
     } catch (error) {
-      console.error('Error updating favorite:', error);
+      console.error("Error updating favorite:", error);
     }
   };
 
   if (!signInUser || !signInUser.uid) {
-    return <div>ログインしていないため、お気に入りページを表示できません。</div>;
+    return (
+      <div>ログインしていないため、お気に入りページを表示できません。</div>
+    );
   }
 
   return (
@@ -75,17 +80,22 @@ const FavoritesPage = () => {
         {books.length > 0 ? (
           books.map((book) => (
             <li key={book.bookId}>
-              <div>タイトル: {book.title || 'タイトルがありません'}</div>
-              <div>著者: {book.author || '著者情報がありません'}</div>
-              <div>価格: {book.price || '価格情報がありません'}</div>
-              <div>出版社: {book.publisher || '出版社情報がありません'}</div>
-              <div>出版日: {book.published ? new Date(book.published).toLocaleDateString() : '出版日がありません'}</div>
-              <Image 
-                src={book.image || '/default_image_url.jpg'} 
-                alt={book.title || '書籍画像'} 
+              <div>タイトル: {book.title || "タイトルがありません"}</div>
+              <div>著者: {book.author || "著者情報がありません"}</div>
+              <div>価格: {book.price || "価格情報がありません"}</div>
+              <div>出版社: {book.publisher || "出版社情報がありません"}</div>
+              <div>
+                出版日:{" "}
+                {book.published
+                  ? new Date(book.published).toLocaleDateString()
+                  : "出版日がありません"}
+              </div>
+              <Image
+                src={book.image || "/default_image_url.jpg"}
+                alt={book.title || "書籍画像"}
                 width={150}
                 height={200}
-                layout='responsive'
+                layout="responsive"
               />
               <FavoriteButton
                 bookId={book.bookId}
